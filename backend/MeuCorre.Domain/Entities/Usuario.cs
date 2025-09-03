@@ -10,12 +10,21 @@
 
         //Construtor para criar um novo usuário.
         //Construtor é a primeira coisa que é executada quando uma classe é instanciada.
-        public Usuario(string nome, string email, DateTime dataNascimento, bool ativo)
+        public Usuario(string nome, string email, string senha, DateTime dataNascimento, bool ativo)
         {
-            Nome = nome;
-            Email = email;
-            DataNascimento = dataNascimento;
-            Ativo = ativo;
+            if (!TemIdadeMinima())
+            {
+                Nome = nome;
+                Email = email;
+                Senha = ValidarSenha(senha);
+                DataNascimento = dataNascimento;
+                Ativo = ativo;
+            }
+            else
+            {
+                throw new Exception("Usuario deve ter no minimo 13 anos.");
+            }
+                        
         }
 
         //Regra negocio: Permite apenas usários maiores de 13 anos.
@@ -34,6 +43,16 @@
         {
             var resultado = CalcularIdade() >= 13;
             return resultado;
+        }
+
+        public string ValidarSenha(string senha)
+        {
+           if (senha.Length < 6)
+            {
+                // Todo Fazer um tratamento de erro melhor 
+            }
+            return senha;
+
         }
 
         public void AtivarUsuario()

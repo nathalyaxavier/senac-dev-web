@@ -1,4 +1,4 @@
-﻿using MeuCorre.Core.Entities;
+﻿using MeuCorre.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MeuCorre.Infra.Data.Context
@@ -17,5 +17,6 @@ namespace MeuCorre.Infra.Data.Context
         //Define a ligação entre a classe c# com a tabela do DB.
         public DbSet<Usuario> Usuarios { get; set; }
 
+       
     }
 }
