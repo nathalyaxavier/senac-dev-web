@@ -37,7 +37,6 @@ namespace MeuCorre.Application.UseCases.Usuarios.Commands
         public async Task<(string, bool)> Handle(CriarUsuarioCommand request, CancellationToken cancellationToken)
         {
             //vai no banco e verifica se já existe um usuário com o email informado
-
             var usuarioExistente = await _usuarioRepository.ObterUsuarioPorEmail(request.Email);
             if (usuarioExistente != null)
             {

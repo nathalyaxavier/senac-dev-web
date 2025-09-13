@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace MeuCorre.Application.UseCases.Usuarios.Commands
 {
-    public class AtualizarUsuarioCommand : IRequest
+    public class AtualizarUsuarioCommand : IRequest<(string, bool)>
     {
-
         [Required(ErrorMessage = "Nome é obrigatório")]
         public required string Nome { get; set; }
 
@@ -29,7 +28,6 @@ namespace MeuCorre.Application.UseCases.Usuarios.Commands
             // Implementar a lógica de atualização do usuário aqui
             throw new NotImplementedException();
         }
-    }
     
       public async Task<(string, bool)>Handle(AtualizarUsuarioCommand request, CancellationToken cancellationToken)
         {

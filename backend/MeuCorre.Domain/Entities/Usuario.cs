@@ -19,10 +19,10 @@ namespace MeuCorre.Domain.Entities
         //Construtor é a primeira coisa que é executada quando uma classe é instanciada.
         public Usuario(string nome, string email, string senha, DateTime dataNascimento, bool ativo)
         {
+
             Nome = nome;
             Email = email;
-            Senha = ValidarSenha(senha);
-            DataNascimento = ValidarIdadeMinima(dataNascimento);
+            DataNascimento = dataNascimento;
             Ativo = ativo;
         }
 
@@ -62,6 +62,15 @@ namespace MeuCorre.Domain.Entities
                 throw new Exception("A senha deve contar pelo menos um números");
             }
 
+            return senha;
+        }
+
+        public string ValidarSenha(string senha)
+        {
+            if (senha.Length < 6)
+            {
+                //Todo Fazer um tratamento de erro melhor
+            }
             return senha;
         }
 
