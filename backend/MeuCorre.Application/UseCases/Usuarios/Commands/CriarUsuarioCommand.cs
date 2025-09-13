@@ -11,6 +11,7 @@ namespace MeuCorre.Application.UseCases.Usuarios.Commands
     /// </summary>
     public class CriarUsuarioCommand : IRequest<(string, bool)>
     {
+
         [Required(ErrorMessage = "Nome é obrigatório")]
         public required string Nome { get; set; }
 
@@ -41,6 +42,13 @@ namespace MeuCorre.Application.UseCases.Usuarios.Commands
             if (usuarioExistente != null)
             {
                 return ("Já existe um usuário cadastrado com este email.", false);
+            }
+
+            var ano = DateTime.Now.Year;
+            var idade = ano - request.DataNascimento.Year;
+            if (idade < 13)
+            {
+                return ("Usuário deve ser maior de 13 anos.", false);
             }
 
             var novoUsuario = new Usuario(

@@ -27,8 +27,4 @@
     <ProjectReference Include="..\MeuCorre.Domain\MeuCorre.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\MeuCorre.Domain\MeuCorre.Domain.csproj" />
-  </ItemGroup>
-
 </Project>

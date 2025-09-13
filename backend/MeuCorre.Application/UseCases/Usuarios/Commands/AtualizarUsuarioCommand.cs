@@ -11,6 +11,7 @@ namespace MeuCorre.Application.UseCases.Usuarios.Commands
 {
     public class AtualizarUsuarioCommand : IRequest<(string, bool)>
     {
+
         [Required(ErrorMessage = "Nome é obrigatório")]
         public required string Nome { get; set; }
 
@@ -19,32 +20,34 @@ namespace MeuCorre.Application.UseCases.Usuarios.Commands
 
         [Required(ErrorMessage = "Data de Nascimento é obrigatória")]
         public DateTime DataNascimento { get; set; }
+
+        public required Guid Id { get; set; }
     }
 
-    internal class AtualizarUsuarioCommandHandler : IRequestHandler<AtualizarUsuarioCommand>
+    internal class AtualizarUsuarioCommandHandler : IRequestHandler<AtualizarUsuarioCommand, (string, bool)>
     {
-        public Task<Unit> Handle(AtualizarUsuarioCommand request, CancellationToken cancellationToken)
+        private readonly IUsuarioRepository _usuarioRepository;
+
+        public AtualizarUsuarioCommandHandler(IUsuarioRepository usuarioRepository)
         {
-            // Implementar a lógica de atualização do usuário aqui
-            throw new NotImplementedException();
+            _usuarioRepository = usuarioRepository;
         }
-    
-      public async Task<(string, bool)>Handle(AtualizarUsuarioCommand request, CancellationToken cancellationToken)
+        public Task<(string, bool)> Handle(AtualizarUsuarioCommand request, CancellationToken cancellationToken)
         {
-            var usuario = await UsuarioRepository.ObterUsuarioPorEmail(request.Email);
+            var usuarioExistente = await _usuarioRepository.ObterUsuarioPorId(request.id);
             if (usuario == null)
             {
                 return ("Usuário não encontrado.", false);
             }
-
-            // Atualiza apenas os campos permitidos
-            usuario.AtualizarDados(
-                nome: request.Nome,
-                dataNascimento: request.DataNascimento
+            // Atualiza os dados do usuário
+            usuarioExistente.AtualizarUsuarioCommand(
+                request.Nome,
+                request.Email,
+                request.DataNascimento,
+                true
             );
 
-            await UsuarioRepository.AtualizarUsuarioAsync(usuario);
-            return ("Usuário atualizado com sucesso.", true);
+            
         }
-
     }
+}
