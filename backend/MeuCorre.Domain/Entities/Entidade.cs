@@ -24,14 +24,5 @@
         {
             DataAtualizacao = DateTime.Now;
         }
-
-        public string ValidarSenha(string senha)
-        {
-            if (senha.Length < 6)
-            {
-                //Todo Fazer um tratamento de erro melhor
-            }
-            return senha;
-        }
     }
 }

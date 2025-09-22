@@ -20,23 +20,41 @@ namespace MeuCorre.Domain.Entities
         public Usuario(string nome, string email, string senha, DateTime dataNascimento, bool ativo)
         {
             ValidarEntidadeUsuario(email, senha, dataNascimento);
-
+            
             Nome = nome;
             Email = email;
+            Senha = senha;
             DataNascimento = dataNascimento;
             Ativo = ativo;
         }
 
-        private void ValidarEntidadeUsuario(string email, string senha, DateTime nascimento)
+        public void AtualizarInformacoes(string nome, DateTime dataNascimento)
         {
-            ValidarIdadeMinima(nascimento);
-            ValidarSenha(senha);
-            ValidarEmail(email);
+            ValidarIdadeMinina(dataNascimento);
+            Nome = nome;
+            DataNascimento = dataNascimento;
+            AtualizarDataMoficacao();
+        }
+        public void AtivarUsuario()
+        {
+            Ativo = true;
+            AtualizarDataMoficacao();
+        }
+        public void InativarUsuario()
+        {
+            Ativo = false;
+            AtualizarDataMoficacao();
         }
 
 
-        //Regra negocio: Permite apenas usários maiores de 13 anos.
-        private DateTime ValidarIdadeMinima (DateTime nascimento)
+
+        private void ValidarEntidadeUsuario(string email, string senha, DateTime nascimento)
+        {
+            ValidarIdadeMinina(nascimento);
+            ValidarSenha(senha);
+            ValidarEmail(email);
+        }
+        private void ValidarIdadeMinina(DateTime nascimento)
         {
             var hoje = DateTime.Today;
             var idade = hoje.Year - nascimento.Year;
@@ -46,18 +64,13 @@ namespace MeuCorre.Domain.Entities
 
             if (idade < 13)
             {
-                //interrompe o processo devolvendo o erro.
-                throw new Exception("Usuário deve ter no minimo 13 anos.");
+                //Interrompe o processo devolvendo o erro
+                throw new Exception("Usuário deve ter no minimo 13 anos");
             }
-
-            return nascimento;
-
         }
-       
-        public string ValidarSenha(string senha)
+        public void ValidarSenha(string senha)
         {
-            //Regra de negocio: pelo menos uma letra e um número.
-            
+            //Regra de dnegocio: pelo menos uma letra e um número.
             if (!Regex.IsMatch(senha, "[a-z]"))
             {
                 throw new Exception("A senha deve contar pelo menos uma letra minuscula");
@@ -66,37 +79,18 @@ namespace MeuCorre.Domain.Entities
             {
                 throw new Exception("A senha deve contar pelo menos uma letra maiuscula");
             }
-            if (!Regex.IsMatch(senha, "[0-9]"))
+            if (!Regex.IsMatch(senha,"[0-9]"))
             {
                 throw new Exception("A senha deve contar pelo menos um números");
             }
-
-            return senha;
         }
-
         private void ValidarEmail(string email)
         {
-            if(!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            //Regra de negocio: email deve conter @ e um domínio válido.
+            if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
-                throw new Exception("Email em formato inválido.");
+                throw new Exception("Email em formato inválido");
             }
-        }
-
-        public void AtivarUsuario()
-        {
-            Ativo = true;
-            AtualizarDataMoficacao();
-        }
-
-        public void InativarUsuario()
-        {
-            Ativo = false;
-            AtualizarDataMoficacao();
-        }
-
-        public void AtualizarUsuarioCommand(string nome, string email, DateTime dataNascimento, bool ativo)
-        {
-            throw new NotImplementedException();
         }
     }
 }
