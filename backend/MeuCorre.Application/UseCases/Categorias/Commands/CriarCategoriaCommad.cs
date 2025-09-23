@@ -26,9 +26,11 @@ namespace MeuCorre.Application.UseCases.Categorias.Commands
     internal class CriarCategoriaCommandHandler : IRequestHandler<CriarCategoriaCommad, (string, bool)>
     {
         private readonly ICategoriaRepository _categoriaRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
         public CriarCategoriaCommandHandler(ICategoriaRepository categoriaRepository)
         {
             _categoriaRepository = categoriaRepository;
+            _usuarioRepository = usuarioRepository;
         }
 
         public async Task<(string, bool)> Handle(CriarCategoriaCommad request, CancellationToken cancellationToken)
