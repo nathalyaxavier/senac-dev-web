@@ -38,8 +38,11 @@ namespace MeuCorre.Application.UseCases.Categorias.Commands
         public async Task<(string, bool)> Handle(CriarCategoriaCommad request, CancellationToken cancellationToken)
         {
             var usuario = await _usuarioRepository.ObterUsuarioPorId(request.UsuarioId);
-            
-            
+            if(usuario == null)
+            {
+                return ("Usuário inválido", false);
+            }
+
             //NÃO PODE CADASTRAR CATEGORIA REPETIDA PARA O MESMO USUÁRIO
             var existe =
                 await _categoriaRepository.NomeExisteParaUsuarioAsync(
