@@ -69,7 +69,7 @@ namespace MeuCorre.Controllers
             }
         }
 
-        [HttpPatch("{id}/ativar")]
+        [HttpPatch("ativar/{id}")]
         public async Task<IActionResult> AtivarCategoria(Guid id)
         {
             var command = new AtivarCategoriaCommand { CategoriaId = id };
@@ -85,7 +85,7 @@ namespace MeuCorre.Controllers
         }
 
 
-        [HttpPatch("{id}/inativar")]
+        [HttpPatch("inativar/{id}")]
         public async Task<IActionResult> InativarCategoria(Guid id)
         {
             var command = new InativarCategoriaCommand { CategoriaId = id };
