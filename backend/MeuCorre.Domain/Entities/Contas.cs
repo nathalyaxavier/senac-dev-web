@@ -8,21 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 public class Conta : Entidade
 {
+    private TipoLimite? tipoLimite;
+
     // Propriedades obrigatórias
     public string Nome { get; set; }
-    public string Tipo { get; set; } 
+    public string Tipo { get; set; }
     public decimal Saldo { get; set; }
     public Guid UsuarioId { get; set; }
     public bool Ativo { get; set; }
     public DateTime DataCriacao { get; set; }
+    public TipoLimite? TipoLimite { get; set; }
 
-    // Propriedades opcionais
-    public decimal? Limite { get; set; }
-    public int? DiaFechamento { get; set; }
-    public int? DiaVencimento { get; set; }
-    public string Cor { get; set; }
-    public string Icone { get; set; }
-    public DateTime? DataAtualizacao { get; set; }
+
 
     // Navigation property
     public Usuario Usuario { get; set; }
@@ -40,10 +37,11 @@ public class Conta : Entidade
 
     public decimal CalcularLimiteDisponivel()
     {
-        if (!EhCartaoCredito() || Limite == null)
+        if (!EhCartaoCredito() || tipoLimite == null)
             return 0;
 
-        return Limite.Value - Saldo;
+        // Convertendo o tipoLimite para decimal antes de realizar a operação
+        return (decimal)tipoLimite.Value - Saldo;
     }
 
     public bool PodeFazerDebito(decimal valor)
@@ -55,5 +53,7 @@ public class Conta : Entidade
 
         return Saldo >= valor;
     }
+
+
 }
 
